@@ -42,11 +42,12 @@ jobs:
           cp -r 锦旗 dist/ 2>/dev/null || true
 
       - name: 上传到 Cloudflare R2
-        uses: cloudflare/wrangler-action@v3
-        with:
-          apiToken: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          accountId: ${{ secrets.CLOUDFLARE_ACCOUNT_ID }}
-          command: r2 object put --recursive --yes dist/ --bucket=${{ secrets.R2_BUCKET }}
+        env:
+          AWS_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_API_TOKEN }}
+          R2_ENDPOINT: https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
+        run: |
+          aws s3 sync dist/ s3://${{ secrets.R2_BUCKET }}/ --endpoint-url=$R2_ENDPOINT --acl public-read --no-follow-symlinks
 
       - name: 验证部署
         run: |
