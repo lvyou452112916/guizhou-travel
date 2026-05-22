@@ -43,9 +43,9 @@ jobs:
 
       - name: 上传到 Cloudflare R2
         env:
-          AWS_ACCESS_KEY_ID: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.CLOUDFLARE_API_TOKEN }}
-          R2_ENDPOINT: https://${{ secrets.CLOUDFLARE_ACCOUNT_ID }}.r2.cloudflarestorage.com
+          AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          R2_ENDPOINT: https://4b69689452650557eee7e7d25e8d8c5f.r2.cloudflarestorage.com
         run: |
           aws s3 sync dist/ s3://${{ secrets.R2_BUCKET }}/ --endpoint-url=$R2_ENDPOINT --acl public-read --no-follow-symlinks
 
